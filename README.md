@@ -255,6 +255,9 @@ const pathName = usePathname();
 - 3. page.tsx has access to both params and searchParams, 
 - 4. layout.tsx only has acceess to params 
 
+<details>
+<summary><code>Params and searchParams</code></summary>
+
 ```ts
 const  NewsArticle = async ({params, searchParams}:{
     params: Promise <{articleId: string}>;
@@ -276,8 +279,11 @@ const  NewsArticle = async ({params, searchParams}:{
 }
 
 ```
+</details>
 
-- use hook
+
+<details>
+<summary><code>use hook Params and searchParams</code></summary>
 ```ts
 'use client'
 import {use} from 'react'
@@ -300,9 +306,10 @@ const  NewsArticle =  ({params, searchParams}:{
   )
 }
 
-
-
 ```
+</details>
+
+
 
 
 
