@@ -133,7 +133,7 @@ Route
 - Group routes like `(auth)` and `(marketing)` can have their own root layout
 
 
-### 3.4 Routing Metadata 
+#### 3.4 Routing Metadata 
 - powerful feature that allows defining various metadata for each page
 - Two ways to handle metadata in layout or page
 -  1. export a static metadata object
@@ -161,31 +161,155 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 };
 ```
 
-##### Metadata Rules:
+#### Metadata Rules:
 - 1) layout metadata apply to all children page, metadata defined in page is more specific only apply to that page
 - 2) flows top-down order starting from the root level
 - 3) when metadata exists in multiple places along a route , they merge together with page metadata override layout metadata for matching properties
 - 4) Specificity: page metadata > layout metadata > parent metadata > root metadata
 
-## How to solve this error:
+#### How to solve this error:
 > **❗ Error:** `You are attempting to export "generateMetadata" from a component marked with "use client", which is disallowed`
 
 - 1) create a client component 'use client' and export 
-- 2) import the client component in page.tsx  and export metadata in page.tsx   
+- 2) import the client component in page.tsx  and export metadata in page.tsx  
+
+
+### Title Metadata object
+- Layout
+```ts
+export const metadata: Metadata ={
+  title:{
+    default:"nextjs tutorial",   //fallback
+    template:"%s | tutorial",     //dynamic
+    absolute:"",                  //hardcoded can pass from children
+  },
+  description :"nextjs tutorial "
+};     
+
+```
+- Child component
+```ts
+export const metadata: metadata ={
+    title:{
+        absolute: "Blog",
+    }
+}
+
+```
+#### 1. default (specific 1 )
+- This sets the default title for the page or layout.
+- If no dynamic title is provided via a template, this is what shows up.
+### 2. template  (specific 10 )
+- This defines how dynamic titles should be rendered.
+- %s is a placeholder for the dynamic part.
+
+### 3. absolute (specific 100 )
+- This allows you to override everything and set a completely fixed title.
+- If absolute is defined, it ignores default and template.
+
+
 
 ---
 
 
-### 🔗 **Navigation**
+## 🔗4. **Navigation**
 - Linking Component Navigation  
 - Active Links  
 - params and searchParams  
 - Navigating Programmatically  
 - Templates  
 
+### 4.1 Link Component Navigation 
+- Link  extends the <a> element and it's the primary way to navigate 
+
+```ts
+import Link from 'next/link'
+
+<Link href="/blog">Blog</Link>     //static link
+
+<Link href=`/blog/${id}`>Blog</Link>     //dynamic link
+```
+
+### 4.2 Active links
+
+```ts
+//active link
+import { usePathname } from "next/navigation";
+const pathName = usePathname();
+{navLinks.map((link) => {
+          const isActive =
+            pathName === link.href ||
+            (pathName.startsWith(link.href) && link.href !== "/");
+          return (
+            <Link key={link.name} href={link.href} className={isActive ?"font-bold mr-4":"text-blue-300"}>
+              {link.name}
+            </Link>
+          );
+        })}
+
+```
+
+### 4.3 Params and searchParams
+- 1. params is a promise that resolves to an object containing the dynamic route parameters (like id)
+- 2. searchParams is a promise that resolves to an object containing the query parameters(like filters and sorting)
+- 3. page.tsx has access to both params and searchParams, 
+- 4. layout.tsx only has acceess to params 
+
+```ts
+const  NewsArticle = async ({params, searchParams}:{
+    params: Promise <{articleId: string}>;
+    searchParams: Promise<{lang?:"en"|"fr"|"es"}>
+}) => {
+    const {articleId} = await params;
+    const {lang ="en"} = await searchParams;
+  return (
+    <div>
+        <h1> news article {articleId} </h1>
+        <p>Read in {lang}</p>
+        <div>
+        <Link href ={`/articles/${articleId}?lang=en`} className="mr-4">English</Link>
+        <Link href ={`/articles/${articleId}?lang=fr`} className="mr-4">French</Link>
+        <Link href ={`/articles/${articleId}?lang=es`}>Spanish</Link>
+        </div>
+    </div>
+  )
+}
+
+```
+
+- use hook
+```ts
+'use client'
+import {use} from 'react'
+const  NewsArticle =  ({params, searchParams}:{
+    params: Promise <{articleId: string}>;
+    searchParams: Promise<{lang?:"en"|"fr"|"es"}>
+}) => {
+    const {articleId} = use(params) ;
+    const {lang ="en"} = use(searchParams) ;
+  return (
+    <div>
+        <h1> news article {articleId} </h1>
+        <p>Read in {lang}</p>
+        <div>
+        <Link href ={`/articles/${articleId}?lang=en`} className="mr-4">English</Link>
+        <Link href ={`/articles/${articleId}?lang=fr`} className="mr-4">French</Link>
+        <Link href ={`/articles/${articleId}?lang=es`}>Spanish</Link>
+        </div>
+    </div>
+  )
+}
+
+
+
+```
+
+
+
+
 ---
 
-### ⏳ **Loading & Error UI**
+## 5. ⏳ **Loading & Error UI**
 - Loading UI  
 - Error Handling  
 - Recovering from Errors  
@@ -195,7 +319,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 
 ---
 
-### 🔀 **Advanced Routing**
+## 6. 🔀 **Advanced Routing**
 - Parallel Routes  
 - Unmatched Routes  
 - Conditional Routes  
@@ -204,7 +328,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 
 ---
 
-### 🧩 **Route Handlers & API**
+## 7. 🧩 **Route Handlers & API**
 - Route Handlers  
 - GET Request  
 - POST Request  
@@ -219,12 +343,12 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 
 ---
 
-### 🛡️ **Middleware & Security**
+## 8. 🛡️ **Middleware & Security**
 - Middleware  
 
 ---
 
-### 🧑‍🎨 **Rendering Techniques**
+## 9. 🧑‍🎨 **Rendering Techniques**
 - Rendering  
 - Client-side Rendering (CSR)  
 - Server-side Rendering (SSR)  
@@ -237,14 +361,14 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 
 ---
 
-### ⚙️ **Params & Streaming**
+## 10.⚙️ **Params & Streaming**
 - generateStaticParams  
 - dynamicParams  
 - Streaming  
 
 ---
 
-### 🧩 **Composition & Code Strategy**
+## 11.🧩 **Composition & Code Strategy**
 - Server and Client Composition Patterns  
 - Server-only Code  
 - Third Party Packages  
@@ -252,14 +376,14 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 
 ---
 
-### 💻 **Client Components**
+## 12. 💻 **Client Components**
 - Client-only Code  
 - Client Component Placement  
 - Interleaving Server and Client Components  
 
 ---
 
-### 📡 **Data Fetching**
+## 13.📡 **Data Fetching**
 - Data Fetching  
 - Fetching Data in Client Components  
 - Fetching Data with Server Components  
@@ -270,7 +394,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 
 ---
 
-### ✍️ **Forms & Server Actions**
+## 14.✍️ **Forms & Server Actions**
 - Data Mutations  
 - Forms with Server Actions  
 - useFormStatus Hook  
@@ -284,7 +408,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 
 ---
 
-### 🔐 **Authentication (Clerk)**
+## 15. 🔐 **Authentication (Clerk)**
 - Authentication  
 - Clerk Setup  
 - Sign in and Sign out  
@@ -297,7 +421,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 
 ---
 
-### 🚀 **Deployment**
+## 16.🚀 **Deployment**
 - Deploying Next.js Apps  
 
 ---

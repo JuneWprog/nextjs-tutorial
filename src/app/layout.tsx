@@ -12,9 +12,20 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Next 15 Tutorial",
-  description: "Tutorial of next app",
+// static metadata
+// export const metadata: Metadata = {
+//   title: "Next 15 Tutorial",
+//   description: "Tutorial of next app",
+// };
+
+//metadata object
+
+export const metadata: Metadata ={
+  title:{
+    default:"nextjs tutorial",
+    template:"%s | tutorial",
+  },
+  description :"nextjs tutorial "
 };
 
 export default function RootLayout({

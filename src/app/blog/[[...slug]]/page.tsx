@@ -1,7 +1,15 @@
 import React from 'react'
+import {Metadata} from 'next'
 
-const OptionalCatchAll = ({params}:{params: Promise<{slug: string[]}>}) => {
-  
+export const metadata:Metadata ={
+  title:{
+    absolute:"blog"
+  }
+}
+
+
+const OptionalCatchAll = ({params}:{params: Promise <{slug: string[]}>}) => {
+     
     const {slug} = params
   return (
     <div>
