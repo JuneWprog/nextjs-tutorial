@@ -88,22 +88,38 @@ Used to store UI logic or internal files
 | File | Description |
 |------|-------------|
 | `layout.js` | Shared UI and state |
-| `template.js` | Per-navigation rendering |
-| `error.js` | React error boundary |
-| `loading.js` | Suspense fallback |
+| `template.js` | Similar to layout.tsx but re-renders on navigation. |
+| `error.js` | Catches and handles rendering errors within its segment. |
+| `loading.js` | Shown during suspenseful data fetching/loading states.|
 | `not-found.js` | 404 error UI |
-| `page.js` / `page.tsx` | Required route component |
+| `page.js` / `page.tsx` | 	Defines the content of a route (required for a route to exist). |
+
+
 
 ### 2.2 🔄 Component Hierarchy
 ```text
 Route
-    └ layout.js
-    └ template.js
-    └ error.js
-    └ loading.js
-    └ not-found.js
-    └ page.js
+    layout.tsx
+  └─ template.tsx
+       └─ error.tsx (React Error Boundary)
+            └─ loading.tsx (React Suspense Boundary)
+                 └─ not-found.tsx
+                      └─ page.tsx
+
 ```
+
+
+## 🔁 Rendering Behavior
+
+| File            | Renders on Nav?         | Handles Errors?     | Suspense Support | Required         |
+|-----------------|--------------------------|----------------------|------------------|------------------|
+| `layout.tsx`    | ❌ (once, persistent)     | ❌                   | ✅               | ✅ (in root)      |
+| `template.tsx`  | ✅ (each time)            | ❌                   | ✅               | ❌                |
+| `page.tsx`      | ✅                        | ❌                   | ✅               | ✅                |
+| `error.tsx`     | ✅ (on error)             | ✅                   | ❌               | ❌                |
+| `loading.tsx`   | ✅ (on loading)           | ❌                   | ✅               | ❌                |
+| `not-found.tsx` | ✅ (on 404)               | ✅ (`notFound()`)    | ❌               | ❌                |
+
 
 ### 2.3 ✅ Page Requirements
 - `page.js` is **required**
@@ -301,6 +317,7 @@ const  NewsArticle = async ({params, searchParams}:{
 
 <details>
 <summary><code>use hook Params and searchParams</code></summary>
+
 ```ts
 'use client'
 import {use} from 'react'
@@ -325,6 +342,77 @@ const  NewsArticle =  ({params, searchParams}:{
 
 ```
 </details>
+
+
+### 4.4  Navigating Programmatically
+
+<details>
+<summary> <code> useRouter -history stack</code></summary>
+
+```ts
+'use client'
+import React from 'react'
+import {useRouter} from 'next/navigation'
+const OrderProduct = () => {
+    const router = useRouter();
+    const handleClick =() =>{
+        router.replace('/')        //replace route in history stack
+        // router.push('/')            //add route to history stack
+        // router.back()                //route previous page
+        // router.refresh()             //refresh same page
+    }
+  return (
+    <div>
+        <h1>Order Product</h1>
+        <button onClick ={handleClick} className="border-2 cursor-pointer"> Place order</button>
+      
+    </div>
+  )
+}
+
+export default OrderProduct
+
+
+```
+
+</details>
+
+
+<details>
+<summary> <code> redirect()</code></summary>
+
+```ts
+import {redirect} from 'next/navigation'
+const OrderProduct = () => {
+    const router = useRouter();
+    const handleClick =() =>{
+       redirect('/')
+    }
+  return (
+    <div>
+        <h1>Order Product</h1>
+        <button onClick ={handleClick} className="border-2 cursor-pointer"> Place order</button>
+      
+    </div>
+  )
+}
+
+export default OrderProduct
+
+```
+</details>
+
+
+### 4.5 Templates
+
+#### 1. What are templates?
+-  Templates are similar to layouts also share UI between multiple pages render children components
+- When a user navigatese between routes sharing a template 
+- a new template component instance is mounted
+- DOM elements are recreated
+- state is cleared
+- effects are re-synchronized
+
 
 
 
