@@ -417,22 +417,24 @@ export default OrderProduct
 - state is cleared
 - effects are re-synchronized
 
-
-
-
-
-
-
 ---
 
 ## 5. ⏳ **Loading & Error UI**
-- Loading UI  
-- Error Handling  
+- Loading UI  -Loading()
+- Error Handling  -ErrorBoundary()
 - Recovering from Errors  
 - Handling Errors in Nested Routes  
 - Handling Errors in Layouts  
 - Handling Global Errors  
 
+
+### 5.2 Error
+- It automatically wraps route segments and their nested children in error boundary
+
+- can create custome error UIs for specific segments using file-sys hierarchy
+- It isolates errors to affected segments while keeping the rest of app functional
+
+- It enables you to attemp to recover from an error without requiring a full page reload
 ---
 
 ## 6. 🔀 **Advanced Routing**
