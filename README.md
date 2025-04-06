@@ -29,6 +29,7 @@ server      /app/api        route.js or route.ts      "use server"
 ### 1.2 🌀 Catch-all & Optional Catch-all Segments
 
 - **Catch-all**  
+- slug is an object of array {slug: []}
 ```bash
 /comments/[...slug] ➝ /comments/a/b/c
 // slug = ["a", "b", "c"]
@@ -43,6 +44,7 @@ app/shop/[...slug]/page.js
 | `/shop/[...slug]` | `/shop/a/b` | `{ slug: ['a', 'b'] }` |
 
 - **Optional Catch-all**
+
 ```bash
 app/shop/[[...slug]]/page.js
 ```
@@ -133,9 +135,9 @@ Route
 
 ### 3.4 Routing Metadata 
 - powerful feature that allows defining various metadata for each page
-- 2 ways to handle metadata in layout or page
-- 1.export a static metadata object
-- 2. export  generateMetadata() a function to dynamic generate metadata
+- Two ways to handle metadata in layout or page
+-  1. export a static metadata object
+-  2. export  generateMetadata() a function to dynamic generate metadata
 
 
 **Static Metadata**
@@ -160,10 +162,10 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 ```
 
 ##### Metadata Rules:
-- 1) layout metadata apply to all its pages, page is specific to that page
+- 1) layout metadata apply to all children page, metadata defined in page is more specific only apply to that page
 - 2) flows top-down order starting from the root level
 - 3) when metadata exists in multiple places along a route , they merge together with page metadata override layout metadata for matching properties
-- 4) Specificity: page metadata > layout metadata >parent metadata >root metadata
+- 4) Specificity: page metadata > layout metadata > parent metadata > root metadata
 
 ## How to solve this error:
 > **❗ Error:** `You are attempting to export "generateMetadata" from a component marked with "use client", which is disallowed`
@@ -300,151 +302,4 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 
 ---
 
-
-
-
-## 1. 📂 File System-Based Routing
-
-comments/[id]  ➝  Dynamic route segment
-```
-### 1.1 📌 Dynamic Route Segment
-```bash
-/
-### 1.2 🌀 Catch-all & Optional Catch-all Segments
-
-- **Catch-all**  
-```bash
-/comments/[...slug] ➝ /comments/a/b/c
-// slug = ["a", "b", "c"]
-```
-
-```bash
-app/shop/[...slug]/page.js
-```
-| Route | Example URL | Params |
-|-------|-------------|--------|
-| `/shop/[...slug]` | `/shop/a` | `{ slug: ['a'] }` |
-| `/shop/[...slug]` | `/shop/a/b` | `{ slug: ['a', 'b'] }` |
-
-- **Optional Catch-all**
-```bash
-app/shop/[[...slug]]/page.js
-```
-| Route | Example URL | Params |
-|-------|-------------|--------|
-| `/shop/[[...slug]]` | `/shop` | `{ slug: undefined }` |
-| `/shop/[[...slug]]` | `/shop/a` | `{ slug: ['a'] }` |
-
-### 1.3 🗂️ Group Routes
-```bash
-(auth)      ➝   Group folder
-  └ login   ➝   /login
-  └ signup  ➝   /signup
-```
-
-### 1.4 🔒 Private Folders
-```bash
-_folder ➝ Not routable
-Used to store UI logic or internal files
-```
-
-### 1.5 🧩 Parallel Routes
-```bash
-@slotName ➝ Parallel routes using named slots
-```
-
-### 1.6 🧭 Intercepting Routes
-| Pattern | Description |
-|---------|-------------|
-| `(.)`folder | Intercepts same level |
-| `(..)`folder | One level above |
-| `(..)(..)`folder | Two levels above |
-| `(...)`folder | Intercepts from root |
-
----
-
-## 2. 📑 Special Files
-
-### 2.1 📁 Files in a Route
-| File | Description |
-|------|-------------|
-| `layout.js` | Shared UI and state |
-| `template.js` | Per-navigation rendering |
-| `error.js` | React error boundary |
-| `loading.js` | Suspense fallback |
-| `not-found.js` | 404 error UI |
-| `page.js` / `page.tsx` | Required route component |
-
-### 2.2 🔄 Component Hierarchy
-```text
-layout.js
-  └ template.js
-    └ error.js
-      └ loading.js
-        └ not-found.js
-          └ page.js
-```
-
-### 2.3 ✅ Page Requirements
-- `page.js` is **required**
-- Must `export default` a React component
-
-### 2.4 🧱 Layouts
-
-#### a) What is a Layout?
-- A layout is UI shared between pages
-- Must default export a component that takes `children`
-
-#### b) Nesting
-- Layout in a route folder applies to all child routes
-```bash
-/products/[id] ➝ Uses root layout + productIdLayout()
-```
-
-#### c) Multiple Root Layouts
-- Group routes like `(auth)` and `(marketing)` can have their own root layout
-
----
-
-## 3. 🧠 Routing Metadata
-
-### 3.1 Defining Metadata
-
-**Static Metadata**
-```ts
-export const metadata = {
-  title: 'My Page',
-};
-```
-
-**Dynamic Metadata**
-```ts
-type Props = {
-  params: Promise<{ productId: string }>
-};
-
-export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
-  const id = (await params).productId;
-  return {
-    title: `Product ${id}`,
-  };
-};
-```
-
-> **❗ Error:** `You are attempting to export "generateMetadata" from a component marked with "use client", which is disallowed`
-
-### 3.2 ✅ How to Solve:
-1. Move dynamic logic to a **client component** (`"use client"`).
-2. Import the client component in `page.tsx`.
-3. Export `generateMetadata` from **server component only**.
-
-### 3.3 Metadata Rules
-
-1. **Layout metadata** applies to all pages inside the layout.
-2. Metadata flows **top-down** from root.
-3. Metadata **merges**, with the following precedence:
-    - Page metadata > Layout metadata > Parent layout > Root layout
-4. Cannot use `generateMetadata` in `"use client"` components.
-
----
 
