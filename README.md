@@ -146,8 +146,9 @@ export const metadata = {
   title: 'My Page',
 };
 ```
+<details>
+<summary> <code> **Dynamic Metadata**</code> </summary>
 
-**Dynamic Metadata**
 ```ts
 type Props = {
   params: Promise<{ productId: string }>
@@ -160,6 +161,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
   };
 };
 ```
+</details>
 
 #### Metadata Rules:
 - 1) layout metadata apply to all children page, metadata defined in page is more specific only apply to that page
@@ -175,7 +177,11 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 
 
 ### Title Metadata object
-- Layout
+
+
+<details>
+<summary> <code>In Layout file </code> </summary>
+
 ```ts
 export const metadata: Metadata ={
   title:{
@@ -187,7 +193,11 @@ export const metadata: Metadata ={
 };     
 
 ```
-- Child component
+</details>
+
+<details>
+<summary> <code>In  Child component  </code> </summary>
+
 ```ts
 export const metadata: metadata ={
     title:{
@@ -196,6 +206,8 @@ export const metadata: metadata ={
 }
 
 ```
+</details>
+
 #### 1. default (specific 1 )
 - This sets the default title for the page or layout.
 - If no dynamic title is provided via a template, this is what shows up.
@@ -232,6 +244,9 @@ import Link from 'next/link'
 
 ### 4.2 Active links
 
+<details>
+<summary> <code>active linkes </code> </summary>
+
 ```ts
 //active link
 import { usePathname } from "next/navigation";
@@ -248,6 +263,8 @@ const pathName = usePathname();
         })}
 
 ```
+
+</details>
 
 ### 4.3 Params and searchParams
 - 1. params is a promise that resolves to an object containing the dynamic route parameters (like id)
