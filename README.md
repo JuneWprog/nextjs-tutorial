@@ -121,6 +121,10 @@ Route
 | `not-found.tsx` | ✅ (on 404)               | ✅ (`notFound()`)    | ❌               | ❌                |
 
 
+
+![2025-04-06_150853](https://github.com/user-attachments/assets/e8e6c810-94a7-46a4-afb4-6e1132488bac)
+
+
 ### 2.3 ✅ Page Requirements
 - `page.js` is **required**
 - Must `export default` a React component
