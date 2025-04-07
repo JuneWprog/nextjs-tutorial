@@ -590,19 +590,19 @@ complex-dashboard        rul: /complex-dashboard
 ### 6.2 Unmatched Routes 
 - /complex-dashboard
 
-<img src="https://github.com/user-attachments/assets/778bdc36-1cce-4ca3-ac3f-58dcc7c7ca21" alt="description" width="500" height="400" />
+<img src="https://github.com/user-attachments/assets/778bdc36-1cce-4ca3-ac3f-58dcc7c7ca21" alt="description" width="400" height="350" />
 
 /complex-dashboard/archived
 - Navigate from the UI
 - when navigating through the UI, nextjs keeps showing whatever was in the unmatched slots before
 
-<img src="https://github.com/user-attachments/assets/53a3e65a-4a15-406f-af90-3cffb5337703" alt="description" width="500" height="400" />
+<img src="https://github.com/user-attachments/assets/53a3e65a-4a15-406f-af90-3cffb5337703" alt="description" width="400" height="350" />
 
 /complex-dashboard/archived
 - page reload ->use fallback default.tsx
 - next.js looks for a 'default.tsx' file in each unmatched slot. This file is critical as it serves as a fallback to render content when the framework cannot retrieve a slot's active state from the current URL
 
-  <img src="https://github.com/user-attachments/assets/d6445412-79e0-4a97-abdb-796af95ddfaf" alt="description" width="500" height="400" />
+  <img src="https://github.com/user-attachments/assets/d6445412-79e0-4a97-abdb-796af95ddfaf" alt="description" width="400" height="350" />
 
 
 
