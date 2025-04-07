@@ -516,16 +516,16 @@ export default function ErrorBoundary({ error, reset }: ErrorProps) {
 ### 5.4 Handling Errors in Nested Routes
 
 - Errors always bubble up to find the closest parent error boundary
-- error file handles errors not just for its own folder, but for all the nested children segments below it too
+- error file handles errors not just for its folder, but for all the nested children segments below it too
 
-### 5.5 Handling Errors in layouts 
+### 5.5 Handling Errors in Layouts 
 
-- error file can not catch the error from the layout file at the same level
-- The error will be handled by the parent error file
+- Error file can not catch the error from the layout file at the same level
+- The parent error file will handle the error
 
 ### 5.6 Handling global errors
 
-- Since error file can not catch the error from the layout, what about the rootlayout?
+- Since the error file can not catch the error from the layout, what about the root layout?
 - global-error.tsx in root directory will handle it
 
 
@@ -537,9 +537,9 @@ app
 
 ```
 
-- Global error need to  work in production mode
+- Global error needs to  work in production mode
 - global-error requires html and body tags to be rendered
-```bs
+``` bs
 npm run build
 npm run start
 ```
@@ -589,19 +589,21 @@ complex-dashboard        rul: /complex-dashboard
 
 ### 6.2 Unmatched Routes 
 - /complex-dashboard
-![1](https://github.com/user-attachments/assets/778bdc36-1cce-4ca3-ac3f-58dcc7c7ca21)
+
 <img src="https://github.com/user-attachments/assets/778bdc36-1cce-4ca3-ac3f-58dcc7c7ca21" alt="description" width="500" height="400" />
 
 /complex-dashboard/archived
 - Navigate from the UI
 - when navigating through the UI, nextjs keeps showing whatever was in the unmatched slots before
-![2](https://github.com/user-attachments/assets/53a3e65a-4a15-406f-af90-3cffb5337703)
+
+<img src="https://github.com/user-attachments/assets/53a3e65a-4a15-406f-af90-3cffb5337703" alt="description" width="500" height="400" />
 
 /complex-dashboard/archived
 - page reload ->use fallback default.tsx
 - next.js looks for a 'default.tsx' file in each unmatched slot. This file is critical as it serves as a fallback to render content when the framework cannot retrieve a slot's active state from the current URL
 
-  ![3](https://github.com/user-attachments/assets/d6445412-79e0-4a97-abdb-796af95ddfaf)
+  <img src="https://github.com/user-attachments/assets/d6445412-79e0-4a97-abdb-796af95ddfaf" alt="description" width="500" height="400" />
+
 
 
 ---
