@@ -527,6 +527,7 @@ export default function ErrorBoundary({ error, reset }: ErrorProps) {
 - Since error file can not catch the error from the layout, what about the rootlayout?
 - global-error.tsx in root directory will handle it
 
+
 ```txt
 app
   └─  rootlayout.tsx    -- if an error in rootlayout
@@ -535,7 +536,8 @@ app
 
 ```
 
-Global error need to  work in production environment
+- Global error need to  work in production mode
+- global-error requires html and body tags to be rendered
 ```bs
 npm run build
 npm run start
@@ -548,7 +550,47 @@ npm run start
 - Unmatched Routes  
 - Conditional Routes  
 - Intercepting Routes  
-- Parallel Intercepting Routes  
+- Parallel Intercepting Routes 
+
+### 6.1 Parallel Routes
+```txt
+complex-dashboard        rul: /complex-dashboard
+  └─  @login 
+        └─page.tsx
+  └─  @notifications 
+      └─achived        rul: /complex-dashboard/achived
+  └─  @revenue
+        └─default.tsx   //fallback when not match url
+        └─page.tsx
+  └─  @users
+        └─default.tsx
+        └─page.tsx
+  └─ page.tsx
+  └─ default.tsx
+  └─ layout.tsx
+
+
+```
+
+
+#### use cases
+- Dashboards with multiple sections
+- Split-view interfaces
+- multi-pane layouts
+- complex admin interfaces
+
+#### How are parallel Routes better than components
+
+- 1. Each slot can have it's own (independent route handling) loading, error, layout...
+- 2. Each slot can have it's own route sub-navigation
+
+### 6.2 Unmatched Routes  
+
+- Navigate from the UI
+when navigating through the UI, nextjs keeps showing whatever was in the unmatched slots before
+
+- page reload
+    next.js looks for a 'default.tsx' file in each unmatched slot. This file is critical as it serves as a fallback to render content when the framework cannot retrieve a slot's active state from the ecurrent URL
 
 ---
 

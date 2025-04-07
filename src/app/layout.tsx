@@ -42,9 +42,9 @@ export default function RootLayout({
       >
         <header className="bg-amber-100 h-50"> Header</header>
         {/* error wrapper is a simulator create new errors */}
-        <ErrorWrapper>
+        {/* <ErrorWrapper> */}
         {children}
-        </ErrorWrapper>
+        {/* </ErrorWrapper> */}
         <div className="bg-amber-100 font-serif font-weight-500 h-10 fixed bottom-0 w-full">Footer</div>
       </body>
     </html>
