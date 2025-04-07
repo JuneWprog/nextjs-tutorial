@@ -574,7 +574,7 @@ complex-dashboard        rul: /complex-dashboard
 ```
 
 
-#### use cases
+#### Use cases
 - Dashboards with multiple sections
 - Split-view interfaces
 - multi-pane layouts
@@ -583,20 +583,25 @@ complex-dashboard        rul: /complex-dashboard
 #### How are parallel Routes better than components
 
 - 1. Each slot can have its own (independent route handling) loading, error, and layout...
-- 2. Each slot can have its own route sub-navigation
+     ![2025-04-06_231034](https://github.com/user-attachments/assets/10e0cf00-98e9-452b-bfe8-31c9c705ac76)
+- 2. Each slot can have its route sub-navigation
+  ![2025-04-06_231125](https://github.com/user-attachments/assets/d4c0fbc3-cb85-42a1-8776-c8da6d7220cf)
 
 ### 6.2 Unmatched Routes 
-![2025-04-06_231125](https://github.com/user-attachments/assets/d4c0fbc3-cb85-42a1-8776-c8da6d7220cf)
+- /complex-dashboard
+![1](https://github.com/user-attachments/assets/778bdc36-1cce-4ca3-ac3f-58dcc7c7ca21)
 
-![2025-04-06_231034](https://github.com/user-attachments/assets/10e0cf00-98e9-452b-bfe8-31c9c705ac76)
-
+/complex-dashboard/archived
 - Navigate from the UI
-when navigating through the UI, nextjs keeps showing whatever was in the unmatched slots before
+- when navigating through the UI, nextjs keeps showing whatever was in the unmatched slots before
+![2](https://github.com/user-attachments/assets/53a3e65a-4a15-406f-af90-3cffb5337703)
 
-- page reload
-    next.js looks for a 'default.tsx' file in each unmatched slot. This file is critical as it serves as a fallback to render content when the framework cannot retrieve a slot's active state from the current URL
+/complex-dashboard/archived
+- page reload ->use fallback default.tsx
+- next.js looks for a 'default.tsx' file in each unmatched slot. This file is critical as it serves as a fallback to render content when the framework cannot retrieve a slot's active state from the current URL
 
-  
+  ![3](https://github.com/user-attachments/assets/d6445412-79e0-4a97-abdb-796af95ddfaf)
+
 
 ---
 
