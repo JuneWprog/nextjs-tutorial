@@ -69,7 +69,7 @@ Used to store UI logic or internal files
 ```
 
 ### 1.5 🧩 Parallel Routes
-```bash
+```text
 @slotName ➝ Parallel routes using named slots
 ```
 
@@ -598,13 +598,28 @@ complex-dashboard        rul: /complex-dashboard
 
 <img src="https://github.com/user-attachments/assets/53a3e65a-4a15-406f-af90-3cffb5337703" alt="description" width="400" height="350" />
 
-
 -  /complex-dashboard/archived page reload ->use fallback default.tsx
 - next.js looks for a 'default.tsx' file in each unmatched slot. This file is critical as it serves as a fallback to render content when the framework cannot retrieve a slot's active state from the current URL
 
   <img src="https://github.com/user-attachments/assets/d6445412-79e0-4a97-abdb-796af95ddfaf" alt="description" width="400" height="350" />
 
+### 6.3 Conditional Routes 
+- using ternory or logical operations to render slots
+- e.g. login? (a) :(b)         login &&(a)
 
+
+### 6.4 Intercepting Routes  
+- Intercepting routes is an advanced routing mechanism that allows you to load a route from another part of your app within the current layout
+
+- It's useful when you want to display new content while keeping your user in the same context
+| Pattern | Description |
+|---------|-------------|
+| `(.)`folder | Intercepts same level |
+| `(..)`folder | One level above |
+| `(..)(..)`folder | Two levels above |
+| `(...)`folder | Intercepts from root |
+
+### 6.5 Parallel Intercepting Routes
 ---
 
 ## 7. 🧩 **Route Handlers & API**
