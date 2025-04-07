@@ -9,6 +9,8 @@ server      /app/api        route.js or route.ts      "use server"
 
 ---
 
+## ** 'use client' client Components can not be async function **
+
 
 ## 1🚏 **Routing System**
 - Routing  
@@ -422,7 +424,7 @@ export default OrderProduct
 ## 5. ⏳ **Loading & Error UI**
 - Loading UI  -Loading()
 - Error Handling  -ErrorBoundary()
-- Recovering from Errors  -reset
+- Recovering from Errors  -reset || reload
 - Handling Errors in Nested Routes  
 - Handling Errors in Layouts  
 - Handling Global Errors  
@@ -454,9 +456,6 @@ type ErrorProps = {
 //reset is a function that can be called to reset the error boundary state and try rendering the children again
 //error is the error that was thrown in the child component
 export default function Error({ error, reset }: ErrorProps) {
-  useEffect(() => {
-    console.error('Route Error:', error)
-  }, [error])
 
   return (
     <div className="text-center p-8">
@@ -472,9 +471,76 @@ export default function Error({ error, reset }: ErrorProps) {
   )
 }
 
+
+'use client'
+import {useRouter} from 'next/navigation'
+import {startTransition} from 'react'
+
+type ErrorProps = {
+  error: Error
+  reset: () => void
+}
+//reset is a function that can be called to reset the error boundary state and try rendering the children again
+//error is the error that was thrown in the child component
+export default function ErrorBoundary({ error, reset }: ErrorProps) {
+  const router = useRouter()
+  //startTransition is used to mark the state update as a transition, which allows React to optimize rendering
+  const reload = () => {
+    startTransition(() => {
+      router.refresh()
+      reset()
+    })}
+
+    return(
+   
+    <div className="text-center p-8">
+      <h2 className="text-2xl font-bold text-red-600">Something went wrong!</h2>
+      <p className="mt-2">{error.message}</p>
+      <button
+        onClick={reload}
+        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+      >
+        Try again
+      </button>
+    </div>
+  )
+}
+
+
 ```
 
 </details>
+
+
+### 5.4 Handling Errors in Nested Routes
+
+- Errors always bubble up to find the closest parent error boundary
+- error file handles errors not just for its own folder, but for all the nested children segments below it too
+
+### 5.5 Handling Errors in layouts 
+
+- error file can not catch the error from the layout file at the same level
+- The error will be handled by the parent error file
+
+### 5.6 Handling global errors
+
+- Since error file can not catch the error from the layout, what about the rootlayout?
+- global-error.tsx in root directory will handle it
+
+```txt
+app
+  └─  rootlayout.tsx    -- if an error in rootlayout
+  └─  rooterror.tsx     --handle errors in all children routes 
+  └─ global-error.tsx   -- handle errors in root
+
+```
+
+Global error need to  work in production environment
+```bs
+npm run build
+npm run start
+```
+
 
 
 ## 6. 🔀 **Advanced Routing**

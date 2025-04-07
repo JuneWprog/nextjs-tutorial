@@ -1,12 +1,11 @@
 
-"use client"
-// import { useParams } from 'next/navigation'
+
 import React from 'react'
 import {notFound} from 'next/navigation'
 
-const CommentDetail = ({params,}:{params: Promise<{productId: string, commentId: string}>}) => {
+const CommentDetail = async ({params,}:{params: Promise<{productId: string, commentId: string}>}) => {
   // const { productId } = useParams()
-  const {productId, commentId} = params 
+  const {productId, commentId} = await params 
 
   if(parseInt(commentId) > 1000 ){
     notFound()
