@@ -124,7 +124,8 @@ Route
 
 
 
-![2025-04-06_150853](https://github.com/user-attachments/assets/e8e6c810-94a7-46a4-afb4-6e1132488bac)
+
+![2025-04-06_152421](https://github.com/user-attachments/assets/75c863f6-e828-426e-b4bd-97c428612214)
 
 
 ### 2.3 ✅ Page Requirements
@@ -581,16 +582,21 @@ complex-dashboard        rul: /complex-dashboard
 
 #### How are parallel Routes better than components
 
-- 1. Each slot can have it's own (independent route handling) loading, error, layout...
-- 2. Each slot can have it's own route sub-navigation
+- 1. Each slot can have its own (independent route handling) loading, error, and layout...
+- 2. Each slot can have its own route sub-navigation
 
-### 6.2 Unmatched Routes  
+### 6.2 Unmatched Routes 
+![2025-04-06_231125](https://github.com/user-attachments/assets/d4c0fbc3-cb85-42a1-8776-c8da6d7220cf)
+
+![2025-04-06_231034](https://github.com/user-attachments/assets/10e0cf00-98e9-452b-bfe8-31c9c705ac76)
 
 - Navigate from the UI
 when navigating through the UI, nextjs keeps showing whatever was in the unmatched slots before
 
 - page reload
-    next.js looks for a 'default.tsx' file in each unmatched slot. This file is critical as it serves as a fallback to render content when the framework cannot retrieve a slot's active state from the ecurrent URL
+    next.js looks for a 'default.tsx' file in each unmatched slot. This file is critical as it serves as a fallback to render content when the framework cannot retrieve a slot's active state from the current URL
+
+  
 
 ---
 
