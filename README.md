@@ -590,7 +590,7 @@ complex-dashboard        rul: /complex-dashboard
 ### 6.2 Unmatched Routes 
 - /complex-dashboard
 ![1](https://github.com/user-attachments/assets/778bdc36-1cce-4ca3-ac3f-58dcc7c7ca21)
-<img src="https://github.com/user-attachments/assets/778bdc36-1cce-4ca3-ac3f-58dcc7c7ca21" alt="description" width="300" height="200" />
+<img src="https://github.com/user-attachments/assets/778bdc36-1cce-4ca3-ac3f-58dcc7c7ca21" alt="description" width="500" height="400" />
 
 /complex-dashboard/archived
 - Navigate from the UI
