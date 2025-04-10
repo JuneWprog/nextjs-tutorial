@@ -661,22 +661,140 @@ complex-dashboard        rul: /complex-dashboard
 
 
 ## 7. 🧩 **Route Handlers & API**
-- Route Handlers  
-- GET Request  
-- POST Request  
-- Dynamic Route Handlers  
+- Route Handlers                /api/comments/route.ts
+- GET Request                    export async function GET() 
+- POST Request                   export async function POST() 
+- Dynamic Route Handlers        /[id]
 - PATCH Request  
 - DELETE Request  
-- URL Query Parameters  
+- URL Query Parameters          
 - Headers in Route Handlers  
 - Cookies in Route Handlers  
-- Redirects in Route Handlers  
+- Redirects in Route Handlers    //redirect("/api/v2/users"); 
 - Caching in Route Handlers  
 
 
-### 7.1 Route Handlers
+<details> 
+<summary> <code> URL Query Parameters    </code> </summary>
+
+```ts
+// query?=
+export async function GET(request: NextRequest) {
+  const searchParams = request.nextUrl.searchParams;
+  const query = searchParams.get("query");
+  const filteredComments = query
+    ? comments.filter((comment) => comment.text.includes(query))
+    : comments;
+  return Response.json(filteredComments);
+}
+
+```
+</details>
 
 
+<details> 
+<summary> <code>  Headers in Route Handlers     </code> </summary>
+
+```ts
+const requestHeaders = new Headers(request.headers);
+//headers
+  console.log(requestHeaders.get("Authorization"));
+
+  const headersList = await headers();
+  console.log(headersList.get("Authorization"));
+
+//cookies
+  const theme = request.cookies.get("theme");
+  console.log(theme);
+
+//set cookies
+  const cookieStore = await cookies();
+  cookieStore.set("resultsPerPage", "20");
+  console.log(cookieStore.get("resultsPerPage"));
+
+
+```
+</details>
+ 
+
+### 7.8 Headers in Route Handlers  
+- profile/api
+
+- Headers can be grouped according to their contexts:
+
+- 1. Request headers :Contain more information about the resource to be fetched, or about the client requesting the resource.
+
+- 2. Response headers
+Hold additional information about the response, like its location or about the server providing it.
+
+```ts
+return new Response("<h1>Profile API data</h1>", {
+    //response headers
+    headers: {
+      "Content-Type": "text/html", 
+      "Set-Cookie": `theme=dark`,
+    },
+  });
+
+```
+
+- 3. Representation headers
+Contain information about the body of the resource, like its MIME type, or encoding/compression applied.
+
+- 4. Payload headers
+Contain representation-independent information about payload data, including content length and the encoding used for transport.
+
+
+### Cookies in Route Handlers 
+what are cookies?
+Cookies are small pieces of data (key-value pairs) stored on a user's device (client-side) by websites.
+# Cookies: Client-Side Key-Value Storage
+
+## Core Functions
+- **Session Management**  
+  Example: Keep users logged in across website navigation
+- **Personalization**  
+  Example: Remember language/theme preferences
+- **Tracking**  
+  Example: User behavior analytics (e.g., Google Analytics)
+
+## Technical Characteristics
+| Feature          | Description |
+|-----------------|-------------|
+| **Storage**     | Client-side, sent via `Cookie` header |
+| **Scope**       | Domain/path restricted |
+| **Lifetime**    | Session (browser close) / Persistent (set expiry) |
+
+## Common Cookie Types
+| Type               | Purpose                     | Example Value        |
+|--------------------|-----------------------------|----------------------|
+| Authentication     | Verify user sessions        | `session_id=abc123` |
+| Preferences        | Store user settings         | `lang=en_US`        |
+| Tracking           | Cross-site activity monitoring | `_ga=GA1.2.3.4`   |
+| Security           | Prevent CSRF attacks        | `csrf_token=xYz789` |
+
+## Security Attributes
+```http
+Set-Cookie: 
+  id=a3fWa; 
+  Expires=Wed, 21 Oct 2025 07:28:00 GMT;
+  Secure; 
+  HttpOnly; 
+  SameSite=Lax
+```
+
+ 
+- Caching in Route Handlers  
+route handlers are not cached by default but you can opt into caching while using the GET method and only GET method
+
+```ts
+export const dynamic = "force-static"; 
+export const revalidate = 10;      //after build, revalidate evey 10 second
+
+export async function GET() {
+  return Response.json({ time: new Date().toLocaleTimeString() });
+}
+```
 ---
 
 ## 8. 🛡️ **Middleware & Security**
