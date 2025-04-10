@@ -618,9 +618,47 @@ complex-dashboard        rul: /complex-dashboard
 | `(..)`folder | One level above |
 | `(..)(..)`folder | Two levels above |
 | `(...)`folder | Intercepts from root |
+|`(../../..)`| – Multiple levels up|
+
+### This is particularly useful for:
+
+- Modals (e.g., opening a login modal from any page while preserving the background content).
+
+- Parallel UI (e.g., expanding a photo gallery in-place without leaving the feed).
+
+- Dynamic overlays (e.g., quick previews, side panels).
 
 ### 6.5 Parallel Intercepting Routes
----
+
+```
+// File structure
+/photo-feed
+├── @modal
+│   └── (..)[id]
+│         └── page.tsx       // Intercepted modal view (click on image)
+├── [id]
+│     └── page.tsx          // Full-page view 
+|     
+└── page.tsx               // Page with links to photo modal
+```
+
+# Next.js Intercepting Routes Behavior
+
+## Core Principle
+- **Direct URL Visit**: Displays the original full page
+- **Link from Sibling Path**: Displays content in a modal/overlay
+
+## Behavior Table
+
+| Access Method        | Displays             | URL Example | Use Case                     |
+|----------------------|----------------------|-------------|------------------------------|
+| Direct URL Visit     | Original full page   | `/photo-feed/1`  | User types URL or refreshes   |
+| Link from Sibling    | Modal/Overlay        | `/photo-feed/1`  | In-context interactions      |
+
+## How Next.js Decides Rendering
+1. **Direct Access** → Bypasses `@modal`, renders `/photo-feed/[id]/page.tsx`  
+2. **Intercepted Access** → Looks for matching `(..)` in `@modal`, renders slot content  
+
 
 ## 7. 🧩 **Route Handlers & API**
 - Route Handlers  
@@ -634,6 +672,10 @@ complex-dashboard        rul: /complex-dashboard
 - Cookies in Route Handlers  
 - Redirects in Route Handlers  
 - Caching in Route Handlers  
+
+
+### 7.1 Route Handlers
+
 
 ---
 
