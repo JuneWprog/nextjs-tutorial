@@ -9,6 +9,7 @@ export const metadata:Metadata ={
 
 
 const OptionalCatchAll = async ({params}:{params: Promise <{slug: string[]}>}) => {
+  console.log("blog Rendered"); //default server component    Server  blog Rendered
      
     const {slug} = await params
   return (
