@@ -1059,9 +1059,51 @@ rendered once on the server and then on the client
 - Rendering lifecycle
 
 - Server Rendering stragegies:
- static : generate html when building - default prerender once and serve
- dynamic: 
+ - static : generate html when building - default prerender once when build and serve   after build you can find .html in .next/app/
+ -  dynamic: generate personalized data (cookie, profile) available at request time and not ahead of time during prerendering.
+ Nextjs automatically switches to dynamic rendering for an route while detects dynamic functions / dynamic API
+   - 1. cookies()
+   - 2. headers()
+   - 3. connection()
+   - 4. draftMode()
+   - 5. searchParams prop
+   - 6. after()
+
+
+generateStaticParams() function
+- works alongside dynamic route segments
+- to generate static routes during build tiem
+- instead on demand at request time
+
+<details>
+
+<summary> <code> **Code Sample**</code> </summary>
+
+``` ts
+//books/1   books/2 books/3 are static rendered at build
+export async function generateStaticParams() {
+    return [{bookId: '1'}, {bookId: '2'}, {bookId: '3'}]
+}
+
+export default async function BookPage({params,}:{params: Promise<{bookId: string}>;})  {
+  
+  const bookId = await params
+    return (
+    <div>
+        <h1 className='text-4xl font-bold'>Book Page</h1>
+        <p className='text-2xl'>Book ID: {bookId.bookId}</p>
+        
+      
+    </div>
+  )
+}
+
+```
+</details>
+
  streaming 
+
+
 
 
 

@@ -3,6 +3,7 @@
 import React from 'react'
 import {notFound} from 'next/navigation'
 
+
 const CommentDetail = async ({params,}:{params: Promise<{productId: string, commentId: string}>}) => {
   // const { productId } = useParams()
   const {productId, commentId} = await params 
