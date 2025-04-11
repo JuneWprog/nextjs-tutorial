@@ -788,7 +788,7 @@ Set-Cookie:
 route handlers are not cached by default but you can opt into caching while using the GET method and only GET method
 
 ```ts
-export const dynamic = "force-static"; 
+export const dynamic = "force-static";  //force to use cached static response
 export const revalidate = 10;      //after build, revalidate evey 10 second
 
 export async function GET() {
