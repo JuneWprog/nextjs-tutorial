@@ -817,7 +817,7 @@ Middleware acts like a request interceptor. It runs **before rendering a page or
 
 ## 🗂️ Where Do You Put Middleware?
 
-You create a file called: middleware.ts
+You create a file called middleware.ts
 
 This should go in the **root directory** of your project (next to your `app/` or `pages/` folder).
 
@@ -1052,16 +1052,26 @@ Without hydration, even though the button is visible, clicking it won’t do any
 
 
 - React Server Components            
-server components are rendered exclusively on the server
+Server components are rendered exclusively on the server
 - Client Components   
 rendered once on the server and then on the client
 
 - Rendering lifecycle
 
+
+
+## 10.⚙️ **Params & Streaming**
+- Server Rendering Stragegies
+- generateStaticParams  
+- dynamicParams  
+- Streaming  
+
+---
+
 - Server Rendering stragegies:
- - static : generate html when building - default prerender once when build and serve   after build you can find .html in .next/app/
- -  dynamic: generate personalized data (cookie, profile) available at request time and not ahead of time during prerendering.
- Nextjs automatically switches to dynamic rendering for an route while detects dynamic functions / dynamic API
+ - static: generate html when building - default prerender once when build and serve   after build you can find .html in .next/app/
+ -  Dynamic: Generate personalized data (cookie, profile) that is available at request time and not ahead of time during prerendering.
+ Nextjs automatically switches to dynamic rendering for a route while detecting dynamic functions / dynamic API
    - 1. cookies()
    - 2. headers()
    - 3. connection()
@@ -1072,15 +1082,15 @@ rendered once on the server and then on the client
 
 generateStaticParams() function
 - works alongside dynamic route segments
-- to generate static routes during build tiem
-- instead on demand at request time
+- to generate static routes during build time
+- instead, on demand at request time
 
 <details>
 
 <summary> <code> **Code Sample**</code> </summary>
 
 ``` ts
-//books/1   books/2 books/3 are static rendered at build
+//books/1   books/2 books/3 are statically rendered at build
 export async function generateStaticParams() {
     return [{bookId: '1'}, {bookId: '2'}, {bookId: '3'}]
 }
@@ -1101,7 +1111,11 @@ export default async function BookPage({params,}:{params: Promise<{bookId: strin
 ```
 </details>
 
- streaming 
+
+
+![2025-04-11_160110](https://github.com/user-attachments/assets/a488a774-98ab-4d67-b5e5-d6c338d3e63e)
+
+ ![22](https://github.com/user-attachments/assets/bbc0da8c-dfc8-48c1-aedd-ac360e6357ca)
 
 
 
@@ -1110,14 +1124,9 @@ export default async function BookPage({params,}:{params: Promise<{bookId: strin
 
 
 
----
-
-## 10.⚙️ **Params & Streaming**
-- generateStaticParams  
-- dynamicParams  
-- Streaming  
 
 ---
+
 
 ## 11.🧩 **Composition & Code Strategy**
 - Server and Client Composition Patterns  
