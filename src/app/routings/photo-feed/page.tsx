@@ -10,7 +10,7 @@ export default function PhotoFeed() {
       </h1>
       <div className="grid sm:grid-cols-1 md:grid-cols-4 gap-4">
         {wondersImages.map(({ id, src, name }) => (
-          <Link key={id} href={`/photo-feed/${id}`}>
+          <Link key={id} href={`/routings/photo-feed/${id}`}>
             <Image
               alt={name}
               src={src}

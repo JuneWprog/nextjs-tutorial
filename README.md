@@ -939,7 +939,7 @@ export const config = {
 
 ## 🧠 What HTML Does the Client Receive?
 
-### 1. **CSR** - Client-side Rendering, bed for SEO and slow, heavy computation on client side.
+### 9.1. **CSR** - Client-side Rendering, bed for SEO and slow, heavy computation on client side.
 
 ```html
 <div id="__next"></div>
@@ -950,7 +950,7 @@ export const config = {
 
 
 
-### 2. **SSR** - Server-side Rendering better SEO and direct access to server-side resources, improved security
+### 9.2. **SSR** - Server-side Rendering better SEO and direct access to server-side resources, improved security
 
 ```html
 <div id="__next">
@@ -963,7 +963,7 @@ export const config = {
 
 
 
-### 3. **SSG** - Static Site Generation - generated on build
+### 9.3. **SSG** - Static Site Generation - generated on build
 
 ```html
 <div id="__next">
@@ -976,7 +976,7 @@ export const config = {
 
 
 
-### 4. **ISR** - Incremental Static Regeneration
+### 9.4. **ISR** - Incremental Static Regeneration
 
 ```html
 <div id="__next">
@@ -988,7 +988,7 @@ export const config = {
 
 
 
-### 5. **Suspense SSR** - Partial Streaming
+### 9.5. **Suspense SSR** - Partial Streaming
 
 ```html
 <div id="__next">
@@ -1015,7 +1015,7 @@ Suspense SSR: Eat while more dishes come
 
 
 
-## 💧 What is Hydration in Next.js?
+## 9.7💧 What is Hydration in Next.js?
 
 **Hydration** is the process where the browser takes over a server-rendered (or statically rendered) HTML page and makes it interactive by attaching JavaScript event handlers.
 
@@ -1037,7 +1037,7 @@ Imagine you receive a beautifully plated meal (HTML), but it's just plastic food
 
 ### 🧠 Visualization:
 
-```
+```txt
 Step 1: Server/Static HTML
 <div id="__next">
   <button>Click me</button>
@@ -1145,6 +1145,7 @@ export const dnamicParams = false;
 ```ts
 <Suspense fallback={<p>Loading...</p>}>
 <Product /> 
+</Suspense>
 
 ```
 
@@ -1308,11 +1309,9 @@ export default function Page() {
   );
 }
 
-
-
 ---
 
-## 13.📡 **Data Fetching**
+## 13.📡 **Data Fetching and Mutation**
 - Data Fetching  
 - Fetching Data in Client Components  
 - Fetching Data with Server Components  
