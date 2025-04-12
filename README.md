@@ -1309,16 +1309,62 @@ export default function Page() {
   );
 }
 
+```
+
 ---
 
 ## 13.📡 **Data Fetching and Mutation**
 - Data Fetching  
 - Fetching Data in Client Components  
 - Fetching Data with Server Components  
-- Loading and Error States  
+- Loading and Error States   error.tsx   loading.tsx
 - Sequential Data Fetching  
 - Parallel Data Fetching  
 - Fetching From a Database  
+
+
+### 13.5 Sequential Data Fetching:
+When one fetch depends on another:
+e.g.
+ fetch all posts
+ .then fetch author using userId for each post
+
+ ```ts
+ <Suspense
+        fallback={
+          <div className="text-sm text-gray-500">Loading author...</div>
+        }
+      >
+        <AuthorDetail userId={post.userId} />
+  </Suspense>
+
+ ```
+
+### 13.6 Parallel Data Fetching
+
+Fetching data side by side, the data do not depend on each other
+
+albums/userId
+posts/userId
+
+``` ts
+    const postsData = getUserPosts(userId);
+    const albumsData = getUserAlbums(userId);
+  
+    const [posts, albums] = await Promise.all([postsData, albumsData]);
+```
+
+
+### 13.7 Fetching From a Database  
+tools:  SQLite Prisma
+Prisma: is a tool to talk to your db
+
+```shell
+npm install prisma -D
+```
+
+### 13.8 Data mutations:
+CRUD 
 
 ---
 
