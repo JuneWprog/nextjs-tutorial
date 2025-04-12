@@ -911,7 +911,7 @@ export const config = {
 | **ISR**            | 🏭 Pre-cooked + chef periodically updates | Build time + background regen | ✅ Fast        | ✅ Fairly fresh | Product listings, news            |
 | **Suspense SSR**   | 🍽 Appetizer first, main dish later       | SSR + Lazy component loading  | ✅ Partial fast| ✅ Fresh        | Smooth UX with partial hydration  |
 
----
+
 
 ## 🎨 Flow Diagram (Rendered)
 
@@ -935,7 +935,7 @@ export const config = {
    🍽 Suspense SSR: appetizer first, then main
 ```
 
----
+
 
 ## 🧠 What HTML Does the Client Receive?
 
@@ -948,7 +948,7 @@ export const config = {
 
 > No content until JS loads and executes.
 
----
+
 
 ### 2. **SSR** - Server-side Rendering better SEO and direct access to server-side resources, improved security
 
@@ -961,7 +961,7 @@ export const config = {
 
 > Full HTML content is sent, interactive once hydrated.
 
----
+
 
 ### 3. **SSG** - Static Site Generation - generated on build
 
@@ -974,7 +974,7 @@ export const config = {
 
 > Very fast, but data may be outdated.
 
----
+
 
 ### 4. **ISR** - Incremental Static Regeneration
 
@@ -986,7 +986,7 @@ export const config = {
 
 > First load gets cached page, server refreshes in the background.
 
----
+
 
 ### 5. **Suspense SSR** - Partial Streaming
 
@@ -1001,7 +1001,7 @@ export const config = {
 
 > Partial render with progressive loading for slow components.
 
----
+
 
 ## ✨ Recap Mnemonic
 
@@ -1013,7 +1013,7 @@ ISR: Pre-cooked + background refresh
 Suspense SSR: Eat while more dishes come
 ```
 
----
+
 
 ## 💧 What is Hydration in Next.js?
 
@@ -1061,11 +1061,12 @@ rendered once on the server and then on the client
 ## 10.⚙️ **Rendering Strategies**
 - Server Rendering strategies
 - Static Rendering
-- DynamicParams 
-  - generateStaticParams  
+- Dynamic Rendering
+- generateStaticParams()  generate some params static at build  
+- DynamicParams           
 - Streaming  
 
-- Server Rendering strategies:
+### 10.1 Server Rendering strategies:
  - Static Rendering: generate html when building - default prerender once when build and serve   after build you can find .html in .next/app/
  - Dynamic Rendering: generate personalized data (cookie, profile) available at request time and not ahead of time during prerendering.
  Nextjs automatically switches to dynamic rendering for an route while detects dynamic functions / dynamic API
@@ -1075,8 +1076,11 @@ rendered once on the server and then on the client
    - 4. draftMode()
    - 5. searchParams prop
    - 6. after()
+- Streaming <Suspense>
+Allows for progressive UI rendering from server
+Breaks down into smaller chunks and streamed to the client when ready
 
-
+### 10.2 GenerateStaticParams
 generateStaticParams() function
 - works alongside dynamic route segments
 - to generate static routes during build tiem
@@ -1108,33 +1112,203 @@ export default async function BookPage({params,}:{params: Promise<{bookId: strin
 ```
 </details>
 
- streaming 
+
+- Multiple static Params
+
+books/[genre]/[bookId]
+
+``` text
+Books
+  └─ genres
+       └─ book
+```
+```ts
+export async function generateStaticParams() {
+    return [{genre:"novle", bookId: '1'}, {genre:"fiction", bookId: '2'}, {genere："mystery", bookId: '3'}]
+}
+```
 
 
+### 10.3 DynamicParams
+control what happens when a dynamic segment is visited that was not generated with generateStaticParams() 
 
+- true  statically render pages on demand not included in generateStaticParams() 
+- false  return 404
 
+```ts
+export const dnamicParams = false;
+```
+ 
 
+### 10.4 Streaming
 
+```ts
+<Suspense fallback={<p>Loading...</p>}>
+<Product /> 
 
+```
 
 ---
 
-
-
----
 
 ## 11.🧩 **Composition & Code Strategy**
 - Server and Client Composition Patterns  
 - Server-only Code  
 - Third Party Packages  
 - Context Providers  
+- Client-only Code  
+- Client Component Placement  
+- Interleaving Server and Client Components 
+
+
+
+
+## 11.1. 🌐 Server and Client Composition Patterns
+
+### 💡 What are Server and Client Components?
+- **Server Component**: Default type in Next.js, rendered on the server. Ideal for fetching data, rendering HTML, and offloading logic from the client.
+- **Client Component**: Declared with `"use client"` directive. Runs on the browser, handles UI interactivity, state, event listeners.
+
+### ✅ Composition Rule
+- ✅ Server Components **can include** Client Components. 
+  - Server components need to wrap Client Components('use client'), import the component, and put the client logic in a seperate compoent
+  - In the compoent tree,  all children  components under a  client component must be client components
+- ❌ Client Components **cannot include** Server Components.
+
+
+
+## 11.2. 🔒 Server-only Code  
+
+server-only Package
+
+```bs
+npm install server-only
+```
+
+### ✅ Use in Server Components only:
+- Database access (Prisma, MongoDB)
+- File system operations (fs)
+- Environment variables
+- Backend services (Auth, Redis)
+
+### ❌ DO NOT include in Client Components:
+- Anything with `process.env`
+- `fs`, `path`, Node.js-only modules
+
+### Example:
+```tsx
+// can only run on server, can not run on client 
+import "server-only"
+import { getServerSession } from "next-auth";
+
+export default async function ServerComponent() {
+  const session = await getServerSession();
+  return <div>{session?.user?.name}</div>;
+}
+```
+
+
+
+## 11.3. 📦 Third Party Packages 
+
+### Package Usage Strategy:
+| Package Type        | Use in Client | Use in Server | Example              |
+|---------------------|---------------|---------------|----------------------|
+| UI/DOM Libraries    | ✅            | ❌            | Chart.js, Leaflet    |   must put 'use client'
+| Utility Libraries   | ✅            | ✅            | Lodash, Day.js       |
+| Server-side Libs    | ❌            | ✅            | Prisma, Bcrypt, fs   |
+| Hybrid Libraries    | ✅ if safe     | ✅            | Axios, Zod           |
+
+> ✅ **Pro tip**: Check if a package uses `window`, `document`, or Node-specific APIs before using it.
+ 
+
+
+
+## 11.4. 🌐 Context Providers  must be **Client Components** 
+
+### ⚙️ Strategy:
+- Global contexts like `ThemeProvider`, `I18nProvider` can be in **Server Components**.
+- Stateful contexts like `AuthProvider`, `SocketProvider` must be **Client Components** (because they rely on browser APIs).
+
+### Example:
+```tsx
+// layout.tsx (Server Component)
+import ThemeProvider from './ThemeProvider';
+
+export default function Layout({ children }) {
+  return <ThemeProvider>{children}</ThemeProvider>;
+}
+
+// AuthLayout.tsx (Client Component)
+"use client";
+import AuthProvider from './AuthProvider';
+
+export default function AuthLayout({ children }) {
+  return <AuthProvider>{children}</AuthProvider>;
+}
+```
 
 ---
 
-## 12. 💻 **Client Components**
-- Client-only Code  
-- Client Component Placement  
-- Interleaving Server and Client Components  
+## 11.5. 🧠 Client-only Code   - only run on client component
+
+client-only package:
+
+```tsx
+import `"client-only"` 
+
+```
+
+
+## 11.6. 🔄 Interleaving Server and Client Components
+
+
+
+### 🔄 Server vs Client Component Nesting
+
+| ✅ Valid Nesting   | ✅/❌ Allowed? | 💡 How to Do It                                                                 |
+|--------------------|---------------|---------------------------------------------------------------------------------|
+| Server ➝ Server    | ✅ Yes         | Directly import and use                                                        |
+| Server ➝ Client    | ✅ Yes         | Directly import and use                                                        |
+| Client ➝ Client    | ✅ Yes         | Directly import and use                                                        |
+| Client ➝ Server    | ❌ No          | ❗ Use **inverted pattern** — render Server in parent Server and pass as prop  |
+
+
+### 🛠️ Workaround: Using Server Component in a Client Component
+
+Since `Client ➝ Server` is not allowed directly, the workaround is:
+
+### ✅ Server ➝ Client ➝ Server (via `children` prop)
+
+### Example
+
+```tsx
+// ✅ ServerComponent.tsx
+export default async function ServerComponent() {
+  return <div>Server Data</div>;
+}
+
+// ✅ ClientWrapper.tsx
+"use client";
+
+export default function ClientWrapper({ children }: { children: React.ReactNode }) {
+  return <div className="border p-4">Client Layout: {children}</div>;
+}
+
+
+// page.tsx (server)
+import ServerComponent from "./ServerComponent";
+import ClientWrapper from "./ClientWrapper";
+
+export default function Page() {
+  return (
+    <ClientWrapper>
+      <ServerComponent />
+    </ClientWrapper>
+  );
+}
+
+
 
 ---
 
