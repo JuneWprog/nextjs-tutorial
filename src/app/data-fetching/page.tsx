@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import Search from './components/search'
 
 const Nav = () => {
   return (
@@ -11,7 +12,7 @@ const Nav = () => {
         <Link href="/data-fetching/user-server" className="hover:text-gray-300"> server Fetching API</Link>
         <Link href="/data-fetching/user-parallel" className="hover:text-gray-300"> parallel Fetching API</Link>
         <Link href="/data-fetching/posts-sequential" className="hover:text-gray-300"> sequential Fetching API</Link>
-
+      <Search />
     </div>
   )
 }

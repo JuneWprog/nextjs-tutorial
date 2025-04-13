@@ -1381,9 +1381,9 @@ CRUD
 
 ## 14.✍️ **Forms & Server Actions**
 
-- Forms with Server Actions  
-- useFormStatus Hook  
-- useActionState Hook  
+- Forms with Server Actions   ('use server' run on server only)
+- useFormStatus Hook           (pending, data, http method, action )
+- useActionState Hook           
 - Separating Server Actions  - keep db logic in server
 - useFormStatus vs useActionState  
 - Update Server Action  
@@ -1422,17 +1422,59 @@ const status = useFormStatus()
 - action: A reference to the function passed to the parent <form> as its onSubmit prop.
 
 ### 14.3 useActionState
-A React hook that allows to update state based on the result of a form action
-It is hellpful for handling form validation and error messages.
+useActionStatus is a React hook that helps you track the status of a server action (form action or similar) — whether it's pending, success, or error. It’s typically used with useFormState or useFormStatus from react-dom.
+```ts
+ const [isPending, state, formAction] = useActionState(createProduct, initialState);
+```
+
+### 14.4 Pending (`useFormStatus`) vs isPending (`useActionState`)
+
+Both can help us determine if a form is being submitted and let us disable the submit button – but there's an interesting difference between them.
+
+- The `pending` state from `useFormStatus` is specifically for form submissions.
+- `isPending` from `useActionState` can be used with any Action, not just form submissions.
+
+#### When to use what:
+
+- Go with **`pending` from `useFormStatus`** when you're building reusable components that are meant to live inside forms.  
+  *For example, submit buttons or loading spinners that you'll want to use across different forms in your application.*
+
+- Choose **`isPending` from `useActionState`** when you need to keep track of server actions that aren't necessarily related to form submissions.  
+  *It gives you that extra flexibility.*
+
+
 
 ### 14.7 useOptimistic
 It helps you immediately reflect changes in the UI while waiting for the real data update from the server. This gives your app a snappier and more responsive feel, especially for things like:
 
-Deleting an item
+- Deleting an item
+- Updating a value 
+- Reordering a list
 
-Updating a value
+```ts
 
-Reordering a list
+const [optimisticProducts, setOptimisticProducts] = useOptimistic(
+    products,
+    (currentProducts, productId) => {
+      return currentProducts.filter((product) => product.id !== productId);
+    }
+  );
+
+    const removeProductById = async (productId: number) => {
+    setOptimisticProducts(productId); // Optimistically remove the product from the UI
+    await removeProduct(productId); // Call the server function to remove the product
+  };
+```
+
+
+
+### 14.8  Form Component -search
+
+1. When the Form component becomes visible, it prefetches the loading UI associated with the `"/products-db"` route.
+2. When a user submits the search, it instantly navigates to the products page client-side and the form data gets turned into URL params.
+3. It'll show the loading state while the search results are being fetched.
+4. Once the data is ready, the results are displayed in the UI.
+
 ---
 
 ## 15. 🔐 **Authentication **
@@ -1445,6 +1487,37 @@ Reordering a list
 - Read Session and User Data  
 - Role Based Access Control  
 - Customizing Clerk Components  
+
+
+### 15.1 Authentication 
+1. Identity: Verifying who someone is through authentication.
+2. Sessions: Keeping track of a user's logged-in state across requests.
+3. Access: Controlling what they can do. 
+Authentication, session management, authorization
+
+- Let users sign up/in/out.
+- Enable them to manage their account (password changes, email updates, etc.).
+- Show or hide UI elements based on whether they're logged in.
+- Protect certain routes depending on authentication status.
+- Access session and user data when needed.
+- Set up role-based access control (admin, editor, viewer, and so on).
+
+### 15.2 Clerk Setup  
+- Clerk authentication package
+  - install
+    ```bs
+    
+    
+    ```
+### 15.3 Sign in and Sign out  
+### 15.4 Profile Settings  
+### 15.5 Conditional UI Rendering  
+### 15.6 Protecting Routes  
+### 15.7 Read Session and User Data  
+### 15.8 Role Based Access Control  
+### 15.9 Customizing Clerk Components  
+
+
 
 ---
 

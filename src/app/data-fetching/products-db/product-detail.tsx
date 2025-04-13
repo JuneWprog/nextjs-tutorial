@@ -4,6 +4,7 @@ import { useOptimistic } from "react";
 import { removeProduct } from "@/app/data-fetching/actions/products";
 import Link from "next/link";
 import Form from "next/form";
+import { useRouter } from 'next/navigation';
 
 export type Product = {
   id: number;
@@ -28,8 +29,13 @@ export const ProductDetail = ({ products }: { products: Product[] }) => {
   );
 
   const removeProductById = async (productId: number) => {
-    setOptimisticProducts(productId);
-    await removeProduct(productId);
+    setOptimisticProducts(productId); // Optimistically remove the product from the UI
+    await removeProduct(productId); // Call the server function to remove the product
+  };
+
+  const router =useRouter()
+  const handleClick = (productId: number)=> {
+    router.push(`/data-fetching/products-db/${productId}`)
   };
 
   return (
@@ -39,11 +45,16 @@ export const ProductDetail = ({ products }: { products: Product[] }) => {
           key={product.id}
           className="p-4 bg-white shadow-md rounded-lg text-gray-700"
         >
-          <h2 className="text-xl font-semibold">
-            <Link href={`/data-fetching/products-db/${product.id}`}>{product.title}</Link>
+         <div onClick={() => handleClick(product.id)} className="cursor-pointer">
+         <h2 className="text-xl font-semibold">
+            <Link href={`/data-fetching/products-db/${product.id}`} className="hover:text-blue-500">{product.title}</Link>
           </h2>
           <p>{product.description}</p>
           <p className="text-lg font-medium">${product.price}</p>
+
+         </div>
+         
+         
           <Form action={removeProductById.bind(null, product.id)}>
             <button
               type="submit"

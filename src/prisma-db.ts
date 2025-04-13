@@ -21,9 +21,9 @@ const seedProducts = async () => {
 seedProducts();
 
 // This function is used to simulate a delay in the database operations
-//query?
+//query? query is optional parameter
 export async function getProducts(query?: string) {
-  await new Promise((resolve) => setTimeout(resolve, 1500));
+  // await new Promise((resolve) => setTimeout(resolve, 1500));
   if (query) {
     return prisma.product.findMany({
       where: {
@@ -38,7 +38,7 @@ export async function getProducts(query?: string) {
 }
 
 export async function getProduct(id: number) {
-  await new Promise((resolve) => setTimeout(resolve, 1500));
+  // await new Promise((resolve) => setTimeout(resolve, 1500));
   return prisma.product.findUnique({
     where: { id },
   });
@@ -49,7 +49,7 @@ export async function addProduct(
   price: number,
   description: string
 ) {
-  await new Promise((resolve) => setTimeout(resolve, 1500));
+  // await new Promise((resolve) => setTimeout(resolve, 1500));
   return prisma.product.create({
     data: { title, price, description },
   });

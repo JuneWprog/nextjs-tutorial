@@ -9,15 +9,19 @@ import { useFormStatus } from "react-dom";
  * method: The HTTP method used (either 'get' or 'post').
  * action: A reference to the function passed to the parent <form> as its onSubmit prop.
  */
+
+
 export const Submit = () => {
   const { pending } = useFormStatus();
+
+  //when pending is true, the button will be disabled to prevent multiple submissions.
   return (
     <button
       type="submit"
       className="block w-full p-2 text-white bg-blue-500 rounded disabled:bg-gray-500"
       disabled={pending}
     >
-      Submit
+      {pending?'Submitting': `Submit`}
     </button>
   );
 };

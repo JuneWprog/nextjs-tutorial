@@ -1,11 +1,13 @@
 import Form from "next/form";
 
+//getProducts db function 
+
 export default function Page() {
   return (
     <Form action="/data-fetching/products-db" className="flex gap-2">
       <input
         name="query"
-        className="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
+        className="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
         placeholder="Search products"
       />
       <button
