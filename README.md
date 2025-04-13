@@ -1384,7 +1384,7 @@ CRUD
 - Forms with Server Actions  
 - useFormStatus Hook  
 - useActionState Hook  
-- Separating Server Actions  
+- Separating Server Actions  - keep db logic in server
 - useFormStatus vs useActionState  
 - Update Server Action  
 - Delete Server Action  
