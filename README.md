@@ -1,4 +1,5 @@
 # 🚀 Next.js Tutorial
+## SQLite, Prisma, Clerk
 
 ## 📁 Folder Structure
 
