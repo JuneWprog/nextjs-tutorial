@@ -17,7 +17,8 @@ export default function ProductEditForm({ product }: { product: Product }) {
   return (
     <form action={formAction} className="p-4 space-y-4 max-w-96">
       <div>
-        <label className="text-white">
+        <h2 className="text-black">Edit Product</h2>
+        <label className="text-black">
           Title
           <input
             type="text"
@@ -31,7 +32,7 @@ export default function ProductEditForm({ product }: { product: Product }) {
         )}
       </div>
       <div>
-        <label className="text-white">
+        <label className="text-black">
           Price
           <input
             type="number"
@@ -45,7 +46,7 @@ export default function ProductEditForm({ product }: { product: Product }) {
         )}
       </div>
       <div>
-        <label className="text-white">
+        <label className="text-black">
           Description
           <textarea
             className="block w-full p-2 text-black border rounded"
@@ -59,7 +60,7 @@ export default function ProductEditForm({ product }: { product: Product }) {
       </div>
       {/* <button
         type="submit"
-        className="block w-full p-2 text-white bg-blue-500 rounded disabled:bg-gray-500"
+        className="block w-full p-2 text-black bg-blue-500 rounded disabled:bg-gray-500"
         disabled={isPending}
       >
         Submit

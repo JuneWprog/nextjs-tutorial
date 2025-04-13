@@ -11,7 +11,14 @@ export type Product = {
   price: number;
   description: string | null;
 };
-
+/**
+ * 
+ * It helps you immediately reflect changes in the UI while waiting for the real data update from the server.
+ *  This gives your app a snappier and more responsive feel.
+ * 
+ * 
+ * @returns 
+ */
 export const ProductDetail = ({ products }: { products: Product[] }) => {
   const [optimisticProducts, setOptimisticProducts] = useOptimistic(
     products,

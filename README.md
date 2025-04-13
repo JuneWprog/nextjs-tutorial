@@ -1424,6 +1424,15 @@ const status = useFormStatus()
 ### 14.3 useActionState
 A React hook that allows to update state based on the result of a form action
 It is hellpful for handling form validation and error messages.
+
+### 14.7 useOptimistic
+It helps you immediately reflect changes in the UI while waiting for the real data update from the server. This gives your app a snappier and more responsive feel, especially for things like:
+
+Deleting an item
+
+Updating a value
+
+Reordering a list
 ---
 
 ## 15. 🔐 **Authentication **

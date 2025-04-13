@@ -1,6 +1,6 @@
 "use server";
 
-import { addProduct, updateProduct, deleteProduct } from "@/prisma-db";
+import { addProduct, updateProduct, deleteProduct } from "@/prisma-db";  //db functions
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
@@ -13,6 +13,11 @@ export type Errors = {
 export type FormState = {
   errors: Errors;
 };
+/***
+ * validate form data from client product-edit-form.tsx product-db-create
+ * 
+ * 
+ */
 
 export async function createProduct(prevState: FormState, formData: FormData) {
   const title = formData.get("title") as string;
@@ -20,7 +25,7 @@ export async function createProduct(prevState: FormState, formData: FormData) {
   const description = formData.get("description") as string;
 
   const errors: Errors = {};
-
+//validation form data
   if (!title) {
     errors.title = "Title is required";
   }
@@ -36,7 +41,7 @@ export async function createProduct(prevState: FormState, formData: FormData) {
   if (Object.keys(errors).length > 0) {
     return { errors };
   }
-
+  //call db function to add product
   await addProduct(title, parseInt(price), description);
   redirect("/data-fetching/products-db");
 }
