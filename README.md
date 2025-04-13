@@ -1358,9 +1358,20 @@ posts/userId
 ### 13.7 Fetching From a Database  
 tools:  SQLite Prisma
 Prisma: is a tool to talk to your db
-
+- install and init:
 ```shell
-npm install prisma -D
+npm install prisma -D                  
+npx prisma init --datasource-provider sqlite
+```
+- config prisma /prisma/schema.prisma
+
+- migration : migration refers to the process of changing the database schema
+3 Things  this command  does:
+1. install @prisma/client package
+2. generate prisma client
+3. execute migration
+```shell
+npx prisma migrate dev --name init
 ```
 
 ### 13.8 Data mutations:
@@ -1369,7 +1380,7 @@ CRUD
 ---
 
 ## 14.✍️ **Forms & Server Actions**
-- Data Mutations  
+
 - Forms with Server Actions  
 - useFormStatus Hook  
 - useActionState Hook  
@@ -1380,6 +1391,39 @@ CRUD
 - Optimistic Updates with useOptimistic Hook  
 - Form Component  
 
+### 14.1 Server Action
+
+**Server Actions** 
+
+- **Server Actions** are asynchronous functions executed on the server.
+- They can be called in both **Server and Client Components** to handle form submissions and data mutations.
+- **Use Server Actions** when you:
+  - Need to perform secure database operations.
+  - Want to reduce API boilerplate code.
+  - Need progressive enhancement for forms.
+  - Want to optimise for performance
+
+ **benefits of Server Actions** :
+
+- **Simplified code**: Server Actions eliminate the need for separate API routes or client-side state management for form data, dramatically simplifying your code.
+- **Improved security**: By keeping sensitive operations server-side, Server Actions enhance security and protect against potential threats.
+- **Better performance**: With less JavaScript running on the client, Server Actions lead to faster load times and improved core web vitals.
+- **Progressive enhancement**: Forms continue to work even if JavaScript fails in the browser, making your apps more accessible and resilient.
+
+
+### 14.2 useFormStatus Hook 
+Hook gives status of last form submission
+```ts
+const status = useFormStatus()
+```
+- pending: A boolean indicating if the parent <form> is currently submitting.
+- data: An object containing the form's submission data.
+- method: The HTTP method used (either 'get' or 'post').
+- action: A reference to the function passed to the parent <form> as its onSubmit prop.
+
+### 14.3 useActionState
+A React hook that allows to update state based on the result of a form action
+It is hellpful for handling form validation and error messages.
 ---
 
 ## 15. 🔐 **Authentication **
