@@ -1650,12 +1650,50 @@ import { clerkClient } from "@clerk/nextjs/server";
 
 ### 15.9 Customizing Clerk Components
 
+1. in modal
+```ts
+<SignInButton mode="modal">
+
+//style
+<SignInButton mode="modal">
+<button className="">Sign In </button>
+</SignInButton >
+
+```
+2. in seperate page: url clerk
+
+```ts
+<SignInButton >
+
+//style
+<SignInButton >
+<button className="">Sign In </button>
+</SignInButton >
+
+```
+3. in seperate page: url your app
 /sign-in/[[...sign-in]]
+
+in .env  
+
+```text
+NEXT_PUBLIC_CLERK_SIGN_IN_URL =/sign-in      
+
+NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL = /onboarding
+
+NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL = /onboarding
+```
+| Variable                                 | Purpose                          | Takes Precedence      | Use Case               |
+|------------------------------------------|----------------------------------|------------------------|------------------------|
+| `NEXT_PUBLIC_CLERK_SIGN_IN_URL`          | Where users sign in              | –                      | Sign-in page URL       |
+| `NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL` | Default "after sign-in" redirect | ✅ If no other redirect exists | Basic login flow        |
+| `NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL`    | Always redirect here after sign-in | 🔥 Overrides all        | Force onboarding flow  |
 
 ---
 
 ## 16.🚀 **Deployment**
 
 - Deploying Next.js Apps
+vercel.com
 
 ---
