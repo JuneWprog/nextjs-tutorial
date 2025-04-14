@@ -170,8 +170,8 @@ Route
 
 - powerful feature that allows defining various metadata for each page
 - Two ways to handle metadata in layout or page
-- 1.  export a static metadata object
-- 2.  export generateMetadata() a function to dynamic generate metadata
+- 1.  Export a static metadata object
+- 2.  Export generateMetadata() a function to dynamically generate metadata
 
 **Static Metadata**
 
@@ -203,16 +203,16 @@ export const generateMetadata = async ({
 
 #### Metadata Rules:
 
-- 1. layout metadata apply to all children page, metadata defined in page is more specific only apply to that page
-- 2. flows top-down order starting from the root level
-- 3. when metadata exists in multiple places along a route , they merge together with page metadata override layout metadata for matching properties
+- 1. Layout metadata applies to all children page; metadata defined on a page is more specific and only applies to that page
+- 2. flows in a top-down order, starting from the root level
+- 3. When metadata exists in multiple places along a route, they merge  with page metadata overriding layout metadata for matching properties
 - 4. Specificity: page metadata > layout metadata > parent metadata > root metadata
 
 #### How to solve this error:
 
-> **❗ Error:** `You are attempting to export "generateMetadata" from a component marked with "use client", which is disallowed`
+> **❗ Error:** `You are attempting to export "generateMetadata" from a component marked with "use client", which is disallowed.`
 
-- 1. create a client component 'use client' and export
+- 1. Create a client component 'use client' and export
 - 2. import the client component in page.tsx and export metadata in page.tsx
 
 ### Title Metadata object
@@ -757,7 +757,7 @@ console.log(cookieStore.get("resultsPerPage"));
 
 - Headers can be grouped according to their contexts:
 
-- 1. Request headers :Contain more information about the resource to be fetched, or about the client requesting the resource.
+- 1. Request headers : Contain more information about the resource to be fetched or about the client requesting the resource.
 
 - 2. Response headers
      Hold additional information about the response, like its location or about the server providing it.
@@ -773,14 +773,14 @@ return new Response("<h1>Profile API data</h1>", {
 ```
 
 - 3. Representation headers
-     Contain information about the body of the resource, like its MIME type, or encoding/compression applied.
+     contains information about the body of the resource, like its MIME type or encoding/compression applied.
 
 - 4. Payload headers
-     Contain representation-independent information about payload data, including content length and the encoding used for transport.
+     contains representation-independent information about payload data, including content length and the encoding used for transport.
 
 ### Cookies in Route Handlers
 
-what are cookies?
+What are cookies?
 Cookies are small pieces of data (key-value pairs) stored on a user's device (client-side) by websites.
 
 # Cookies: Client-Side Key-Value Storage
@@ -961,8 +961,8 @@ export const config = {
  │      Restaurant Analogy    │
  └───────────────────────────┘
 
-   🍳 CSR: raw materials delivered to user
-   🍛 SSR: hot meal cooked on-demand by server
+   🍳 CSR: Raw materials delivered to user
+   🍛 SSR: hot meal cooked on demand by server
    🥡 SSG: pre-cooked factory meal, ready to eat
    🔄 ISR: factory meal + background refresh
    🍽 Suspense SSR: appetizer first, then main
@@ -979,7 +979,7 @@ export const config = {
 
 > No content until JS loads and executes.
 
-### 9.2. **SSR** - Server-side Rendering better SEO and direct access to server-side resources, improved security
+### 9.2. **SSR** - Server-side rendering better SEO and direct access to server-side resources, improved security
 
 ```html
 <div id="__next">
@@ -988,7 +988,7 @@ export const config = {
 </div>
 ```
 
-> Full HTML content is sent, interactive once hydrated.
+> Full HTML content is sent, and it is interactive once hydrated.
 
 ### 9.3. **SSG** - Static Site Generation - generated on build
 
@@ -1081,7 +1081,7 @@ Without hydration, even though the button is visible, clicking it won’t do any
 - Server Rendering strategies
 - Static Rendering
 - Dynamic Rendering
-- generateStaticParams() generate some params static at build
+- generateStaticParams() generate some static params at build
 - DynamicParams
 - Streaming
 
@@ -1089,7 +1089,7 @@ Without hydration, even though the button is visible, clicking it won’t do any
 
 - Static Rendering: generate html when building - default prerender once when build and serve after build you can find .html in .next/app/
 - Dynamic Rendering: generate personalized data (cookie, profile) available at request time and not ahead of time during prerendering.
-  Nextjs automatically switches to dynamic rendering for an route while detects dynamic functions / dynamic API
+  Nextjs automatically switches to dynamic rendering for a route while detecting dynamic functions / dynamic API
   - 1.  cookies()
   - 2.  headers()
   - 3.  connection()
@@ -1105,15 +1105,15 @@ Without hydration, even though the button is visible, clicking it won’t do any
 generateStaticParams() function
 
 - works alongside dynamic route segments
-- to generate static routes during build tiem
-- instead on demand at request time
+- to generate static routes during build time
+- instead, on demand at request time
 
 <details>
 
 <summary> <code> **Code Sample**</code> </summary>
 
 ```ts
-//books/1   books/2 books/3 are static rendered at build
+//books/1   books/2 books/3 are statically rendered at build
 export async function generateStaticParams() {
   return [{ bookId: "1" }, { bookId: "2" }, { bookId: "3" }];
 }
@@ -1151,9 +1151,9 @@ export async function generateStaticParams() {
 }
 ```
 
-### 10.3 DynamicParams
+### 10.3 Dynamic Params
 
-control what happens when a dynamic segment is visited that was not generated with generateStaticParams()
+Control what happens when a dynamic segment is visited that was not generated with generateStaticParams()
 
 - true statically render pages on demand not included in generateStaticParams()
 - false return 404
@@ -1176,7 +1176,7 @@ export const dnamicParams = false;
 
 - Server and Client Composition Patterns
 - Server-only Code
-- Third Party Packages
+- Third-Party Packages
 - Context Providers
 - Client-only Code
 - Client Component Placement
@@ -1229,7 +1229,7 @@ export default async function ServerComponent() {
 }
 ```
 
-## 11.3. 📦 Third Party Packages
+## 11.3. 📦 Third-Party Packages
 
 ### Package Usage Strategy:
 
@@ -1371,7 +1371,7 @@ const [posts, albums] = await Promise.all([postsData, albumsData]);
 
 ### 13.7 Fetching From a Database
 
-tools: SQLite Prisma
+Tools: SQLite Prisma
 Prisma: is a tool to talk to your db
 
 - install and init:
@@ -1383,7 +1383,7 @@ npx prisma init --datasource-provider sqlite
 
 - config prisma /prisma/schema.prisma
 
-- migration : migration refers to the process of changing the database schema
+- migration: migration refers to the process of changing the database schema
   3 Things this command does:
 
 1. install @prisma/client package
@@ -1591,7 +1591,7 @@ export default clerkMiddleware(async (auth, req) => {
 
 ### 15.7 Read Session and User Data
 auth provide userId, session info
-currentUser provide userId,userProfile (email,img...)
+currentUser provide userId, userProfile (email,img...)
 
 - In Server component:
 
@@ -1661,7 +1661,7 @@ import { clerkClient } from "@clerk/nextjs/server";
 </SignInButton >
 
 ```
-2. in seperate page: url clerk
+2. In a  separate page and URL fom clerk
 
 ```ts
 <SignInButton >
@@ -1672,7 +1672,7 @@ import { clerkClient } from "@clerk/nextjs/server";
 </SignInButton >
 
 ```
-3. in seperate page: url your app
+3. In a separate page and URL: your app
 /sign-in/[[...sign-in]]
 
 in .env  
